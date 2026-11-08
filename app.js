@@ -86,7 +86,7 @@ function thIc(){return '<svg viewBox="0 0 24 24" width="18" height="18" fill="no
 function thBtn(){return '<button class="pill th" id="thb" aria-label="تبديل الوضع الليلي">'+thIc()+'</button>'}
 function thWire(){var b=$("thb");if(b)b.onclick=function(){S.th=isDark()?"light":"dark";save();applyTh();b.innerHTML=thIc()}}
 function shuf(q){q.forEach(function(x){var a=x[1].map(function(o,j){return{o:o,r:j===x[2]}});for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}x[1]=a.map(function(e){return e.o});x[2]=a.findIndex(function(e){return e.r})})}
-LV.forEach(function(l){l.U.forEach(function(u){u.s.forEach(function(s){if(!s.q&&LQ['q'+s.id])s.q=LQ['q'+s.id];if(s.q)shuf(s.q)})})});
+LV.forEach(function(l){l.U.forEach(function(u){var n=[];u.s.forEach(function(s){if(!s.q&&LQ['q'+s.id]){var qi={id:s.id+'q',k:'q',t:'اختبار: '+s.t,q:LQ['q'+s.id],ref:s.id};shuf(qi.q);s.hq=1;s.nq=qi.id;n.push(s);n.push(qi)}else{if(s.q)shuf(s.q);n.push(s)}});u.s=n})});
 function qsc(id){var v=S.qs[id];if(!v)return null;if(typeof v==='string'){var a=v.split('/');return{c:+a[0],t:+a[1]}}return v}
 function qtxt(id){var v=qsc(id);return v?v.c+' من '+v.t:''}
 function pct(l){var c=0,t=0;l.U.forEach(function(u){u.s.forEach(function(s){if(!s.q||S.d[s.id]!=='done')return;var v=qsc(s.id);c+=v?v.c:0;t+=s.q.length})});return t?Math.round(c/t*100):0}
@@ -95,7 +95,7 @@ function revList(st){var r=[];st.forEach(function(s){if(!s.q||S.d[s.id]!=='done'
 function rvChips(r){return r.map(function(x){return '<button class="rvb" data-o="'+x.id+'">'+x.t+' · '+x.p+'%</button>'}).join('')}
 function revNote(u){var r=revList(u.s);return r.length?'<div class="note w"><b>دروس تحتاج إلى مراجعة</b><div class="rvs">'+rvChips(r)+'</div></div>':''}
 function gateCard(l){var all=[];l.U.forEach(function(u){all=all.concat(revList(u.s))});return '<div class="card" style="margin-top:14px;border-color:#F97316"><b>نسبتك في المستوى '+l.c+': '+pct(l)+'%</b><p class="sub" style="margin:4px 0 0">للانتقال إلى '+nx(l.c)+' تحتاج إلى 90% على الأقل. راجع الدروس التالية ثم أعد اختباراتها:</p><div class="rvs">'+rvChips(all)+'</div></div>'}
-function lq(s,done){if(!s.q)return '';var last=S.qs[s.id]?'<p class="sub" style="margin:4px 0 0">آخر نتيجة: '+qtxt(s.id)+'</p>':'';return (S.rev&&!done?'<div class="row"><button class="btn" id="skp">أعرف هذا الدرس</button></div>':'')+'<div class="card" id="qz" style="margin-top:18px" '+(s.k==='v'&&!done?'hidden':'')+'><b>اختبر فهمك</b>'+last+s.q.map(function(x,i){return '<div class="qq" style="margin-top:12px"><p>'+(i+1)+'. '+x[0]+'</p>'+x[1].map(function(o,j){return '<label><input type="radio" name="lq'+i+'" value="'+j+'"> <span dir="auto">'+o+'</span></label>'}).join('')+'<div class="fb" id="lf'+i+'"></div></div>'}).join('')+'<div class="row"><button class="btn primary" id="lchk">عرض النتيجة</button></div><div id="lres"></div></div>'}
+function lq(s,done){if(s.hq)return (S.rev&&!done?'<div class="row"><button class="btn" id="skp">أعرف هذا الدرس</button></div>':'');if(!s.q)return '';var last=S.qs[s.id]?'<p class="sub" style="margin:4px 0 0">آخر نتيجة: '+qtxt(s.id)+'</p>':'';return (S.rev&&!done?'<div class="row"><button class="btn" id="skp">أعرف هذا الدرس</button></div>':'')+'<div class="card" id="qz" style="margin-top:18px" '+(s.k==='v'&&!done?'hidden':'')+'><b>اختبر فهمك</b>'+last+s.q.map(function(x,i){return '<div class="qq" style="margin-top:12px"><p>'+(i+1)+'. '+x[0]+'</p>'+x[1].map(function(o,j){return '<label><input type="radio" name="lq'+i+'" value="'+j+'"> <span dir="auto">'+o+'</span></label>'}).join('')+'<div class="fb" id="lf'+i+'"></div></div>'}).join('')+'<div class="row"><button class="btn primary" id="lchk">عرض النتيجة</button></div><div id="lres"></div></div>'}
 function wireLQ(s,id,done){var sk=$('skp');if(sk)sk.onclick=function(){complete(id,'skip')};var b=$('lchk');if(!b)return;var dn=false;b.onclick=function(){var a=$('app');if(dn){a.querySelectorAll('input[name^="lq"]').forEach(function(r){r.checked=false});s.q.forEach(function(x,i){$('lf'+i).textContent=''});$('lres').innerHTML='';b.textContent='عرض النتيجة';dn=false;return}var sc=0;s.q.forEach(function(x,i){var c=a.querySelector('input[name="lq'+i+'"]:checked'),f=$('lf'+i);if(c&&+c.value===x[2]){sc++;f.className='fb';f.textContent='إجابة صحيحة'}else{f.className='fb no';f.textContent='الإجابة الصحيحة: '+x[1][x[2]]}});S.qs[id]={c:sc,t:s.q.length};save();dn=true;b.textContent='إعادة المحاولة';$('lres').innerHTML='<div class="note">نتيجتك: '+sc+' من '+s.q.length+'. '+(sc/s.q.length>=0.9?'ممتاز! فهمك للدرس قوي.':'ننصحك بإعادة مشاهدة الدرس ثم المحاولة مرة أخرى.')+'</div>'}}
 var KEY="enpath_v4",S={d:{},qs:{},sk:{n:0,last:""},rm:{t:"20:00"},na:0,ob:0,nm:"",lvl:"A1",mn:30},O=null,CUR=null,CC="ar",ended=false,got=false,tm=null,skipH=false;
 try{var raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
@@ -117,7 +117,7 @@ function est(l,m){if(TB[l]&&TB[l][m])return "حوالي "+TB[l][m];var mo=(CM[l]
  if(r<24)return r===1?"حوالي شهر":r===2?"حوالي شهرين":"حوالي "+r+(r<11?" أشهر":" شهرًا");
  var y=Math.floor(r/12),x=r%12;return "حوالي "+(y===1?"سنة":y===2?"سنتين":y<11?y+" سنوات":y+" سنة")+(x===0?"":x===1?" وشهر":x===2?" وشهرين":" و"+x+(x<11?" أشهر":" شهرًا"))}
 function go(id){location.href=id?"lesson-"+id+".html":"index.html"}
-function complete(id,how){S.d[id]=how;if(how==="done")bump();save();go(null)}
+function complete(id,how){S.d[id]=how;if(how==="done")bump();save();var s=find(id);go(how==="done"&&s&&s.nq?s.nq:null)}
 function view(){clearTimeout(tm);CUR=null;var pa=$("app");pa.classList.remove("pgin");void pa.offsetWidth;pa.classList.add("pgin");
  $("pills").innerHTML=thBtn()+(S.ob?'<span class="pill gd" title="الأيام المتتالية">🔥 '+S.sk.n+'</span><span class="pill">'+S.lvl+'</span>':"");thWire();
  if(!S.ob){O=null;onboard()}else if(O)lesson(O);else map();document.querySelectorAll(".ad").forEach(function(e){e.style.display=(S.na||!S.ob)?"none":""})}
@@ -172,20 +172,20 @@ function onboard(){
 }
 function ytUrl(s){var p=["enablejsapi=1","rel=0","playsinline=1","cc_load_policy=1","cc_lang_pref="+CC,"hl="+CC,"origin="+encodeURIComponent(location.origin)];if(s.st)p.push("start="+s.st);if(s.en)p.push("end="+s.en);return "https://www.youtube-nocookie.com/embed/"+s.y+"?"+p.join("&")}
 function lesson(id){
- var s=find(id),done=!!S.d[id],h='<button class="back" id="bk">→ العودة إلى المسار</button><h1>'+s.t+'</h1>',lab=done?"العودة إلى المسار":"التالي";
+ var s=find(id),done=!!S.d[id],h='<button class="back" id="bk">→ العودة إلى المسار</button><h1>'+s.t+'</h1>',lab=done?"العودة إلى المسار":(s.nq?"ابدأ الاختبار":"التالي");
  if(s.k==="v"){
   CUR=s;ended=done;got=false;
   h+='<div class="pl"><iframe id="yt" src="'+ytUrl(s)+'" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="'+s.t+'"></iframe><div class="ov" id="ov" hidden>'+(s.ot||"")+'</div></div>'+
-  '<div class="card tr"><b>النص والترجمة</b>سيظهر هنا النص الكامل للفيديو، ويمكنك الضغط على أي كلمة أو تحديد جملة كاملة لمعرفة معناها.</div>'+
+  '<div class="card tr" id="tr" hidden></div>'+
   '<div class="row"><button class="btn" id="cc">الترجمة: '+(CC==="ar"?"العربية":"الإنجليزية")+'</button><button class="btn primary" id="nx" '+(done?"":"disabled")+'>'+(done?lab:"أكمل الفيديو للمتابعة")+'</button></div><div class="note" id="nt" hidden></div>'+lq(s,done);
  }else if(s.k==="w"){
   h+='<div class="card">'+s.w.split(";").map(function(p,i){var a=p.split("|");return '<div class="wd"><b>'+(s.L?a[0][0].toUpperCase():i+1)+'</b><span dir="ltr" style="text-align:end">'+a[0]+'</span><span>'+a[1]+'</span></div>'}).join("")+'</div><div class="row"><button class="btn primary" id="nx">'+lab+'</button></div>'+lq(s,done);
  }else{
   h+='<p class="sub">هذا الاختبار لقياس فهمك فقط، ولا يمنعك من المتابعة مهما كانت نتيجتك.</p>'+s.q.map(function(x,i){return '<div class="qq"><p>'+(i+1)+". "+x[0]+'</p>'+x[1].map(function(o,j){return '<label><input type="radio" name="q'+i+'" value="'+j+'"> <span dir="auto">'+o+'</span></label>'}).join("")+'<div class="fb" id="fb'+i+'"></div></div>'}).join("")+
-  '<div class="row"><button class="btn" id="chk">عرض النتيجة</button><button class="btn primary" id="nx" '+(done?"":"disabled")+'>'+(done?lab:"التالي")+'</button></div><div id="res"></div>';
+  '<div class="row">'+(s.ref?'<a class="btn" href="lesson-'+s.ref+'.html">راجع الدرس</a>':'')+'<button class="btn" id="chk">عرض النتيجة</button><button class="btn primary" id="nx" '+(done?"":"disabled")+'>'+(done?lab:"التالي")+'</button></div><div id="res"></div>';
  }
  $("app").innerHTML=h;
- $("bk").onclick=function(){go(null)};if(s.k!=="q")wireLQ(s,id,done);
+ $("bk").onclick=function(){go(null)};if(s.k==="v"&&window.TR)TR.init(s);if(s.k!=="q")wireLQ(s,id,done);
  $("nx").onclick=function(){done?go(null):complete(id,"done")};
  if(s.k==="v"){
   var f=$("yt");f.onload=function(){try{f.contentWindow.postMessage(JSON.stringify({event:"listening",id:1,channel:"widget"}),"*")}catch(e){}};
@@ -199,8 +199,8 @@ function lesson(id){
   $("res").innerHTML='<div class="note">نتيجتك: '+sc+" من "+s.q.length+". "+(p>=70?"أحسنت! يبدو أنك استوعبت الدرس.":"ننصحك بمراجعة الدرس، ويمكنك المتابعة في أي وقت.")+"</div>";
   var n=$("nx");n.disabled=false;n.textContent=lab};
 }
-function fin(){if(!CUR||ended)return;ended=true;var qz=$("qz");if(qz)qz.hidden=false;var n=$("nx");if(n){n.disabled=false;n.textContent="التالي"}}
-function tick(t){if(!CUR)return;var o=$("ov");if(o&&CUR.ov)o.hidden=!(t>=CUR.ov[0]&&t<=CUR.ov[1]);if(CUR.en&&t>=CUR.en-0.7)fin()}
+function fin(){if(!CUR||ended)return;ended=true;var qz=$("qz");if(qz)qz.hidden=false;var n=$("nx");if(n){n.disabled=false;n.textContent=CUR.nq?"ابدأ الاختبار":"التالي"}}
+function tick(t){if(!CUR)return;if(window.TR)TR.tick(t);var o=$("ov");if(o&&CUR.ov)o.hidden=!(t>=CUR.ov[0]&&t<=CUR.ov[1]);if(CUR.en&&t>=CUR.en-0.7)fin()}
 addEventListener("message",function(e){
  if(!CUR||!/youtube/.test(e.origin))return;var d;
  try{d=typeof e.data==="string"?JSON.parse(e.data):e.data}catch(x){return}

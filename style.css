@@ -118,3 +118,21 @@ h1{font-weight:800}.card{border-radius:20px}.nd{border-radius:16px}
 .seo{margin:22px 0;padding:16px;border:1.5px solid var(--ln);border-radius:14px;background:var(--sf)}.seo h1{font-size:1.25rem;margin:0 0 6px}.seo h2{font-size:1.05rem}.seo table{width:100%;border-collapse:collapse}.seo td{border-bottom:1px solid var(--ln);padding:6px}.seo .mu{color:var(--mu)}.seo ul{padding-inline-start:20px}
 .ft{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:18px 0 28px;font-size:.9rem}.ft a,.brand{color:inherit;text-decoration:none}.ft a{color:var(--mu)}
 .md{position:fixed;inset:0;background:#0007;display:grid;place-items:center;z-index:99;padding:16px}.md .bx{background:var(--sf);color:var(--ink);border-radius:16px;padding:18px;width:100%;max-width:340px;display:grid;gap:10px}.md input{padding:12px;border:1.5px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}.md .er{color:var(--bad);font-size:.9rem;min-height:1.2em}
+
+/* النص المتزامن مع الفيديو */
+.tr{min-height:0}
+.trh{font-size:.9rem;color:var(--mu)}
+.trl{position:relative;max-height:280px;overflow-y:auto;margin-top:10px;display:flex;flex-direction:column;gap:4px;scroll-behavior:smooth}
+.trln{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:12px;color:var(--mu);line-height:1.7}
+.trln p{margin:0}
+.trln.on{background:var(--ac2);color:var(--ink)}
+.trpt{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ln);background:var(--sf);color:var(--ac);cursor:pointer;font-size:.7rem;line-height:1}
+.trw{cursor:pointer;border-radius:6px;padding:0 1px}
+.trw:hover,.trw:focus-visible{background:var(--ac2);outline:2px solid var(--ac)}
+.trar{font-size:.88rem;margin-top:2px!important}
+.trl.noar .trar{display:none}
+.trpop{margin-top:10px;border:1.5px solid var(--ac);border-radius:14px;padding:12px 14px;background:var(--sf);color:var(--ink)}
+.trpw{font-weight:700;font-size:1.1rem}
+.trpm{margin:4px 0 8px}
+.trpb{display:flex;gap:8px;flex-wrap:wrap}
+.trpb .btn{padding:7px 14px}
