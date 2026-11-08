@@ -10,7 +10,7 @@ function dict(){
  [window.W1,window.W2,window.W3].forEach(function(s){if(!s)return;s.split(";").forEach(function(p){var a=p.split("|");if(a[1])local[a[0].toLowerCase().replace(/[’]/g,"'")]=a[1]})});
  var d=window.DICT||{};for(var k in d)local[k.toLowerCase()]=d[k];return local}
 function norm(w){return w.toLowerCase().replace(/[’]/g,"'")}
-function find(w){var d=dict(),k=norm(w);if(d[k])return d[k];
+function find(w){var d=dict(),k=norm(w);if(d[k])return d[k];if(/^[a-z]$/.test(k))return "الحرف "+k.toUpperCase()+" من الأبجدية الإنجليزية";
  var c=[k.replace(/'s$/,""),k.replace(/s$/,""),k.replace(/es$/,""),k.replace(/ed$/,""),k.replace(/ing$/,"")];
  for(var i=0;i<c.length;i++)if(c[i]!==k&&d[c[i]])return d[c[i]];return null}
 function online(q,cb){
