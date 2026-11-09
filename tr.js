@@ -26,7 +26,7 @@ function say(t){try{var u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=
 function show(word){
  pop.hidden=false;pop.innerHTML='<div class="trpw" dir="ltr">'+x(word)+'</div><div class="trpm" id="trpm">جارٍ الترجمة…</div><div class="trpb"><button class="btn" id="trps" type="button">🔊 نطق</button><button class="btn" id="trpx" type="button">إغلاق</button></div>';
  g("trps").onclick=function(){say(word)};g("trpx").onclick=function(){pop.hidden=true};
- tr(word,function(t){var m=g("trpm");if(m)m.textContent=t||"تعذّرت الترجمة الآن. جرّب مرة ثانية."});
+ tr(word,function(t){var m=g("trpm");if(m)m.textContent=t||D("tr_fail")});
  say(word)}
 function words(s){return s.split(/([A-Za-z]+(?:['’][A-Za-z]+)*)/).map(function(p,i){return i%2?'<span class="trw" role="button" tabindex="0">'+x(p)+'</span>':x(p)}).join("")}
 function scroll(i){
@@ -39,7 +39,7 @@ window.TR={
   d=d.filter(function(r){return r[0]>=a-1&&r[0]<=b});if(!d.length)return;
   d.forEach(function(r){if(r[2])hasAr=true});
   box.hidden=false;
-  box.innerHTML='<b>النص والترجمة</b><div class="trh">النص بيمشي مع الفيديو. اضغط على أي كلمة تعرف معناها، أو اضغط ▶ جنب أي جملة تسمعها تاني.</div>'+(hasAr?'<div class="row" style="margin-top:8px"><button class="btn" id="trt" type="button">ترجمة الجمل: تشغيل</button></div>':'')+'<div class="trl" id="trl"></div><div class="trpop" id="trpop" hidden></div>';
+  box.innerHTML='<b>النص والترجمة</b><div class="trh">'+D("tr_hint")+'</div>'+(hasAr?'<div class="row" style="margin-top:8px"><button class="btn" id="trt" type="button">ترجمة الجمل: تشغيل</button></div>':'')+'<div class="trl" id="trl"></div><div class="trpop" id="trpop" hidden></div>';
   lst=g("trl");pop=g("trpop");
   lst.innerHTML=d.map(function(r,i){return '<div class="trln" data-i="'+i+'"><button class="trpt" type="button" aria-label="شغّل من هنا" data-t="'+r[0]+'">▶</button><div><p dir="ltr">'+words(r[1])+'</p>'+(r[2]?'<p class="trar">'+x(r[2])+'</p>':'')+'</div></div>'}).join("");
   L=d.map(function(r,i){return{t:r[0],el:lst.children[i]}});cur=-1;

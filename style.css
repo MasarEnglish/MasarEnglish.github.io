@@ -136,3 +136,31 @@ h1{font-weight:800}.card{border-radius:20px}.nd{border-radius:16px}
 .trpm{margin:4px 0 8px}
 .trpb{display:flex;gap:8px;flex-wrap:wrap}
 .trpb .btn{padding:7px 14px}
+
+/* اختيار البلد */
+.dlg{position:fixed;inset:0;z-index:99;background:var(--bg);color:var(--ink);display:flex;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));overflow:auto}
+.dlg-in{width:100%;max-width:900px;margin:auto;min-height:100%;display:flex;flex-direction:column;gap:14px}
+.dlg-t{text-align:center;font-size:1.15rem}
+.dlg-row{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:1fr 1fr;gap:16px}
+.dlg-b{font:inherit;color:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,3vh,24px);min-height:0;padding:12px;background:var(--sf);border:2px solid var(--ln);border-radius:24px;cursor:pointer;box-shadow:var(--sh)}
+.dlg-b:hover,.dlg-b.on{border-color:var(--ac);background:var(--ac2)}
+.dlg-b:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.dlg-n{font-size:clamp(2rem,8vw,2.8rem);font-weight:800;line-height:1.2}
+.dlg-f{display:block;line-height:1}
+.dlg-f img{display:block;width:auto;height:clamp(64px,16vh,150px);max-width:70vw;border-radius:8px;box-shadow:0 0 0 1px var(--ln)}
+.dlg-e{font-size:clamp(3.5rem,14vh,6rem)}
+.dlg-x{align-self:center}
+@media (min-width:700px){
+ .dlg-in{min-height:0}
+ .dlg-row{flex:none;grid-template-columns:1fr 1fr;grid-template-rows:none;height:min(420px,60vh)}
+ .dlg-t{font-size:1.4rem}
+}
+
+.dlg-in:focus{outline:none}
+
+.pn.lock .circ,.pn.lock{cursor:pointer}
+
+.exs{margin-top:8px;display:grid;gap:6px;text-align:start}.ex{font-size:.88rem;line-height:1.6;padding:8px 10px;border-radius:10px;border:1.5px solid var(--ln)}.ex.ok{border-color:#16a34a}.ex.bad{border-color:#dc2626}
+
+.dlg-row{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:minmax(96px,1fr);height:auto;flex:none}
+@media(min-width:600px){.dlg-row{grid-template-columns:repeat(3,1fr);height:min(320px,60vh)}}
