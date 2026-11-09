@@ -164,3 +164,10 @@ h1{font-weight:800}.card{border-radius:20px}.nd{border-radius:16px}
 
 .dlg-row{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:minmax(96px,1fr);height:auto;flex:none}
 @media(min-width:600px){.dlg-row{grid-template-columns:repeat(3,1fr);height:min(320px,60vh)}}
+
+/* الشرح المكتوب تحت الفيديو */
+.xp{margin-top:18px}.xp h2{font-size:1.15rem;margin:0 0 6px;color:var(--ink)}.xp h3{font-size:1rem;margin:16px 0 6px;color:var(--ac)}.xp p{margin:0 0 10px}
+.xex,.xerr{margin:0;padding:0;list-style:none}.xex li{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-bottom:1px solid var(--ln)}.xex li:last-child{border:0}
+.xen{font-weight:700;text-align:start}.xar{color:var(--mu)}
+.xerr li{position:relative;padding:6px 26px 6px 0;margin-bottom:4px}.xerr li::before{content:"⚠️";position:absolute;inset-inline-start:0;top:6px;font-size:.9rem}
+.xtip{margin-top:16px;background:var(--ac2);border-radius:12px;padding:12px 14px}.xtip b{display:block;margin-bottom:2px}.xtip p{margin:0}

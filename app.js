@@ -201,13 +201,21 @@ function onboard(){
  $("nxo").onclick=function(){if(OB===0)S.nm=$("nm").value.trim();if(OB===3)S.rm.t=$("rt").value;if(OB===4){S.ob=1;save();go(null);return}OB++;save();onboard()};
 }
 function ytUrl(s){var p=["enablejsapi=1","rel=0","playsinline=1","cc_load_policy=1","cc_lang_pref="+CC,"hl="+CC,"origin="+encodeURIComponent(location.origin)];if(s.st)p.push("start="+s.st);if(s.en)p.push("end="+s.en);return "https://www.youtube-nocookie.com/embed/"+s.y+"?"+p.join("&")}
+function xlat(t){return esc(t).replace(/[A-Za-z][A-Za-z0-9’'\-\/]*(?:[.,?!]? [A-Za-z][A-Za-z0-9’'\-\/]*)*/g,function(m){return '<bdi dir="ltr">'+m+'</bdi>'})}
+function xv(v){return Array.isArray(v)?(v[DL.code==="sa"?1:DL.code==="fu"?2:0]||v[0]||""):(v||"")}
+function xpl(id){var e=(window.EXPL||{})[id];if(!e)return "";var h="",sm=xv(e.sum),tp=xv(e.tip);
+ if(sm)h+='<h3>ملخص الدرس</h3>'+String(sm).split(/\n\n+/).map(function(p){return '<p>'+xlat(p)+'</p>'}).join("");
+ if(e.ex&&e.ex.length)h+='<h3>أمثلة</h3><ul class="xex">'+e.ex.map(function(r){return '<li><span class="xen" dir="ltr">'+esc(r[0])+'</span><span class="xar">'+esc(xv(r[1]))+'</span></li>'}).join("")+'</ul>';
+ if(e.err&&e.err.length)h+='<h3>أخطاء شائعة</h3><ul class="xerr">'+e.err.map(function(r){return '<li>'+xlat(xv(r))+'</li>'}).join("")+'</ul>';
+ if(tp)h+='<div class="xtip"><b>نصيحة للتذكر</b><p>'+xlat(tp)+'</p></div>';
+ return h?'<section class="card xp" id="xp"><h2>شرح الدرس</h2>'+h+'</section>':""}
 function lesson(id){
  var s=find(id),done=!!S.d[id],h='<button class="back" id="bk">→ العودة إلى المسار</button><h1>'+s.t+'</h1>',lab=done?"العودة إلى المسار":(s.nq?"ابدأ الاختبار":"التالي");
  if(s.k==="v"){
   CUR=s;ended=done;got=false;
   h+='<div class="pl"><iframe id="yt" src="'+ytUrl(s)+'" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="'+s.t+'"></iframe><div class="ov" id="ov" hidden>'+(s.ot||"")+'</div></div>'+
   '<div class="card tr" id="tr" hidden></div>'+
-  '<div class="row"><button class="btn" id="cc">الترجمة: '+(CC==="ar"?"العربية":"الإنجليزية")+'</button><button class="btn primary" id="nx" '+(done?"":"disabled")+'>'+(done?lab:"أكمل الفيديو للمتابعة")+'</button></div><div class="note" id="nt" hidden></div>'+lq(s,done);
+  '<div class="row"><button class="btn" id="cc">الترجمة: '+(CC==="ar"?"العربية":"الإنجليزية")+'</button><button class="btn primary" id="nx" '+(done?"":"disabled")+'>'+(done?lab:"أكمل الفيديو للمتابعة")+'</button></div><div class="note" id="nt" hidden></div>'+xpl(id)+lq(s,done);
  }else if(s.k==="w"){
   h+='<div class="card">'+s.w.split(";").map(function(p,i){var a=p.split("|");return '<div class="wd"><b>'+(s.L?a[0][0].toUpperCase():i+1)+'</b><span dir="ltr" style="text-align:end">'+a[0]+'</span><span>'+a[1]+'</span></div>'}).join("")+'</div><div class="row"><button class="btn primary" id="nx">'+lab+'</button></div>'+lq(s,done);
  }else{
