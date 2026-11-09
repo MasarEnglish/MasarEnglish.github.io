@@ -209,6 +209,7 @@ function xpl(id){var e=(window.EXPL||{})[id];if(!e)return "";var h="",sm=xv(e.su
  if(e.err&&e.err.length)h+='<h3>أخطاء شائعة</h3><ul class="xerr">'+e.err.map(function(r){return '<li>'+xlat(xv(r))+'</li>'}).join("")+'</ul>';
  if(tp)h+='<div class="xtip"><b>نصيحة للتذكر</b><p>'+xlat(tp)+'</p></div>';
  return h?'<section class="card xp" id="xp"><h2>شرح الدرس</h2>'+h+'</section>':""}
+function qrev(s){var b="";if(s.ref)b=xpl(s.ref);else{var u;LV.forEach(function(l){l.U.forEach(function(x){if(x.s.indexOf(s)>-1)u=x})});var w=u&&u.s.filter(function(t){return t.k==="w"})[0];if(w&&w.w)b='<section class="card xp"><h2>راجع مفردات الوحدة</h2>'+w.w.split(";").map(function(p,i){var c=p.split("|");return '<div class="wd"><b>'+(i+1)+'</b><span dir="ltr" style="text-align:end">'+c[0]+'</span><span>'+c[1]+'</span></div>'}).join("")+'</section>'}return b}
 function lesson(id){
  var s=find(id),done=!!S.d[id],h='<button class="back" id="bk">→ العودة إلى المسار</button><h1>'+s.t+'</h1>',lab=done?"العودة إلى المسار":(s.nq?"ابدأ الاختبار":"التالي");
  if(s.k==="v"){
@@ -220,7 +221,7 @@ function lesson(id){
   h+='<div class="card">'+s.w.split(";").map(function(p,i){var a=p.split("|");return '<div class="wd"><b>'+(s.L?a[0][0].toUpperCase():i+1)+'</b><span dir="ltr" style="text-align:end">'+a[0]+'</span><span>'+a[1]+'</span></div>'}).join("")+'</div><div class="row"><button class="btn primary" id="nx">'+lab+'</button></div>'+lq(s,done);
  }else{
   h+='<p class="sub">'+D("quiz_intro")+'</p>'+s.q.map(function(x,i){return '<div class="qq"><p>'+(i+1)+". "+x[0]+'</p>'+x[1].map(function(o,j){return '<label><input type="radio" name="q'+i+'" value="'+j+'"> <span dir="auto">'+o+'</span></label>'}).join("")+'<div class="fb" id="fb'+i+'"></div></div>'}).join("")+
-  '<div class="row">'+(s.ref?'<a class="btn" href="lesson-'+s.ref+'.html">راجع الدرس</a>':'')+'<button class="btn" id="chk">عرض النتيجة</button><button class="btn primary" id="nx" '+(done?"":"disabled")+'>'+(done?lab:"التالي")+'</button></div><div id="res"></div>';
+  '<div class="row">'+(s.ref?'<a class="btn" href="lesson-'+s.ref+'.html">راجع الدرس</a>':'')+'<button class="btn" id="chk">عرض النتيجة</button><button class="btn primary" id="nx" '+(done?"":"disabled")+'>'+(done?lab:"التالي")+'</button></div><div id="res"></div>'+qrev(s);
  }
  $("app").innerHTML=h;
  $("bk").onclick=function(){go(null)};if(s.k==="v"&&window.TR)TR.init(s);if(s.k!=="q")wireLQ(s,id,done);
