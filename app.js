@@ -184,7 +184,7 @@ function notif(n){
  Notification.requestPermission().then(function(p){n.textContent=p==="granted"?"تم حفظ وقت التذكير ("+S.rm.t+") وتفعيل إذن الإشعارات.":D("notif_denied")})}
 function onboard(){
  var i=LO.indexOf(S.lvl),h='<div class="bar" aria-hidden="true"><i style="width:'+(OB+1)*20+'%"></i></div><p class="sub" style="margin:8px 0 18px">الخطوة '+(OB+1)+' من 5</p>';
- if(OB===0)h+='<h1>مرحبًا بك في مسار</h1><p class="sub">'+D("welcome_sub")+'</p><label for="nm" class="sub">الاسم</label><input id="nm" class="inp" autocomplete="name" value="'+esc(S.nm)+'"><div class="note w">'+D("demo_acct")+'</div>';
+ if(OB===0)h+='<h1>مرحبًا بك في مسار</h1><p class="sub">'+D("welcome_sub")+'</p><label for="nm" class="sub">الاسم</label><input id="nm" class="inp" autocomplete="name" value="'+esc(S.nm)+'">'+((window.CFG&&CFG.fb&&CFG.fb.apiKey)?'<div class="note"><button class="btn" id="obl" type="button">'+D("ob_login")+'</button></div>':'<div class="note w">'+D("demo_acct")+'</div>');
  else if(OB===1){h+='<h1>'+D("level_q")+'</h1><p class="sub">'+D("level_sub")+'</p>'+LO.filter(function(l){return LV.some(function(x){return x.c===l})}).map(function(l){return '<button class="opt'+(S.lvl===l?" on":"")+'" data-l="'+l+'"><span class="lv">'+l+'</span><span><b>'+LN[l]+'</b><small>'+LD[l]+'</small></span></button>'}).join("");
   if(i>0&&!RV)h+='<div class="note">'+D("suggest_review",LO[i-1],S.lvl)+'</div><div class="row"><button class="btn primary" id="rv">البدء بمراجعة '+LO[i-1]+'</button><button class="btn" id="kp">المتابعة من '+S.lvl+'</button></div>'}
  else if(OB===2)h+='<h1>'+D("time_q")+'</h1><p class="sub">'+D("time_sub")+'</p><div class="cps">'+MN.map(function(m){return '<button class="cp'+(S.mn===m?" on":"")+'" data-m="'+m+'">'+fm(m)+'</button>'}).join("")+'</div><div class="note">'+D("pace_note",nx(S.lvl),est(S.lvl,S.mn))+'</div>';
@@ -247,6 +247,7 @@ addEventListener("message",function(e){
  if(!d)return;got=true;var i=d.info;
  if(d.event==="infoDelivery"&&i){if(typeof i.currentTime==="number")tick(i.currentTime);if(i.playerState===0)fin()}
  if(d.event==="onStateChange"&&i===0)fin()});
+document.addEventListener("click",function(e){var t=e.target;if(t&&t.id==="obl"){var b=document.getElementById("acc");if(b)b.click()}});
 applyTh();(function(){var xs=$("xps");if(xs)xs.remove();var L=O=document.body.getAttribute("data-l")||null;if(O&&(!S.ob||!canOpen(O))){view();$("app").innerHTML='<div class="card" style="text-align:center"><p>'+D("lesson_locked")+'</p><a class="btn" href="index.html">خريطة الدروس 🗺️</a></div>'+(function(){var q=find(L);return q&&q.k==="v"?xpl(L):""})();}else view();initAds()})();
 function initAds(){var C=(window.CFG||{}).ads||{},cl=C.client||"ca-pub-6780159293669545",xp=$("xp"),mp=!document.body.getAttribute("data-l")&&document.querySelector("#app .unit"),ok=!!(xp||mp),live=ok;
 if(ok&&!$("adm")){var m=document.createElement("div");m.className="ad";m.id="adm";
