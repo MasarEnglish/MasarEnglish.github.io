@@ -171,3 +171,4 @@ h1{font-weight:800}.card{border-radius:20px}.nd{border-radius:16px}
 .xen{font-weight:700;text-align:start}.xar{color:var(--mu)}
 .xerr li{position:relative;padding:6px 26px 6px 0;margin-bottom:4px}.xerr li::before{content:"⚠️";position:absolute;inset-inline-start:0;top:6px;font-size:.9rem}
 .xtip{margin-top:16px;background:var(--ac2);border-radius:12px;padding:12px 14px}.xtip b{display:block;margin-bottom:2px}.xtip p{margin:0}
+#adm{margin:18px 0}#ad2{margin-top:28px}
