@@ -163,7 +163,12 @@ h1{font-weight:800}.card{border-radius:20px}.nd{border-radius:16px}
 .exs{margin-top:8px;display:grid;gap:6px;text-align:start}.ex{font-size:.88rem;line-height:1.6;padding:8px 10px;border-radius:10px;border:1.5px solid var(--ln)}.ex.ok{border-color:#16a34a}.ex.bad{border-color:#dc2626}
 
 .dlg-row{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:minmax(96px,1fr);height:auto;flex:none}
-@media(min-width:600px){.dlg-row{grid-template-columns:repeat(3,1fr);height:min(320px,60vh)}}
+.dlg-in{max-width:520px}
+.dlg-row{display:flex;flex-direction:column;gap:12px;flex:none;height:auto}
+.dlg-b{flex-direction:row;justify-content:flex-start;gap:16px;width:100%;min-height:72px;padding:12px 18px;border-radius:16px;text-align:start}
+.dlg-n{font-size:1.3rem;font-weight:800}
+.dlg-f img{height:36px;max-width:none;border-radius:5px}
+.dlg-e{font-size:2.2rem}
 
 /* الشرح المكتوب تحت الفيديو */
 .xp{margin-top:18px}.xp h2{font-size:1.15rem;margin:0 0 6px;color:var(--ink)}.xp h3{font-size:1rem;margin:16px 0 6px;color:var(--ac)}.xp p{margin:0 0 10px}
