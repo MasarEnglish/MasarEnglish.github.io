@@ -14,5 +14,5 @@ btn.onclick=()=>{const m=document.createElement("div");m.className="md";const ou
  $("cl").onclick=ok;if(out){$("lo").onclick=async()=>{await B.signOut(au);sessionStorage.removeItem("sy");ok()};return}
  $("si").onclick=()=>B.signInWithEmailAndPassword(au,$("em").value,$("pw").value).then(ok).catch(er);
  $("su").onclick=()=>B.createUserWithEmailAndPassword(au,$("em").value,$("pw").value).then(ok).catch(er);
- $("go").onclick=()=>B.signInWithPopup(au,new B.GoogleAuthProvider()).then(ok).catch(er);
+ $("go").onclick=()=>{const g=new B.GoogleAuthProvider();B.signInWithPopup(au,g).then(ok).catch(e=>{if(e&&(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"))B.signInWithRedirect(au,g).catch(er);else if(e&&(e.code==="auth/popup-closed-by-user"||e.code==="auth/cancelled-popup-request"))return;else er(e)})};
  $("rp").onclick=()=>B.sendPasswordResetEmail(au,$("em").value).then(()=>$("er").textContent=D("e_reset")).catch(er)}})();
