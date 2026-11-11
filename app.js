@@ -183,22 +183,32 @@ function notif(n){
  if(!("Notification" in window)){n.textContent=D("notif_unsup");return}
  Notification.requestPermission().then(function(p){n.textContent=p==="granted"?"تم حفظ وقت التذكير ("+S.rm.t+") وتفعيل إذن الإشعارات.":D("notif_denied")})}
 function onboard(){
- var i=LO.indexOf(S.lvl),h='<div class="bar" aria-hidden="true"><i style="width:'+(OB+1)*20+'%"></i></div><p class="sub" style="margin:8px 0 18px">الخطوة '+(OB+1)+' من 5</p>';
- if(OB===0)h+='<h1>مرحبًا بك في مسار</h1><p class="sub">'+D("welcome_sub")+'</p><label for="nm" class="sub">الاسم</label><input id="nm" class="inp" autocomplete="name" value="'+esc(S.nm)+'">'+((window.CFG&&CFG.fb&&CFG.fb.apiKey)?'<div class="note"><button class="btn" id="obl" type="button">'+D("ob_login")+'</button></div>':'<div class="note w">'+D("demo_acct")+'</div>');
- else if(OB===1){h+='<h1>'+D("level_q")+'</h1><p class="sub">'+D("level_sub")+'</p>'+LO.filter(function(l){return LV.some(function(x){return x.c===l})}).map(function(l){return '<button class="opt'+(S.lvl===l?" on":"")+'" data-l="'+l+'"><span class="lv">'+l+'</span><span><b>'+LN[l]+'</b><small>'+LD[l]+'</small></span></button>'}).join("");
-  if(i>0&&!RV)h+='<div class="note">'+D("suggest_review",LO[i-1],S.lvl)+'</div><div class="row"><button class="btn primary" id="rv">البدء بمراجعة '+LO[i-1]+'</button><button class="btn" id="kp">المتابعة من '+S.lvl+'</button></div>'}
- else if(OB===2)h+='<h1>'+D("time_q")+'</h1><p class="sub">'+D("time_sub")+'</p><div class="cps">'+MN.map(function(m){return '<button class="cp'+(S.mn===m?" on":"")+'" data-m="'+m+'">'+fm(m)+'</button>'}).join("")+'</div><div class="note">'+D("pace_note",nx(S.lvl),est(S.lvl,S.mn))+'</div>';
- else if(OB===3)h+='<h1>التذكير اليومي</h1><p class="sub">'+D("remind_sub")+'</p><div class="card"><div class="row" style="margin:0"><input type="time" id="rt" value="'+S.rm.t+'" aria-label="وقت التذكير"><button class="btn" id="rb">تفعيل الإشعارات</button></div><div class="note" id="rn">'+D("demo_remind")+'</div></div><div class="note">'+D("streak_note")+'</div>';
- else h+='<h1>'+D("ready")+'</h1><div class="card"><div class="stats" style="margin:0"><div class="stat">المستوى<b>'+S.lvl+' · '+LN[S.lvl]+'</b></div><div class="stat">الهدف اليومي<b>'+fm(S.mn)+'</b></div><div class="stat">وقت التذكير<b>'+S.rm.t+'</b></div><div class="stat">مستوى '+nx(S.lvl)+'<b>'+est(S.lvl,S.mn)+'</b></div></div></div>'+(S.lvl!=="A1"?'<div class="note w">'+D("only_a1")+'</div>':"");
- h+='<div class="row">'+(OB?'<button class="btn" id="pv">رجوع</button>':"")+'<button class="btn primary" id="nxo">'+(OB===4?"ابدأ التعلّم":"التالي")+'</button></div>';
- var a=$("app");a.innerHTML=h;
- a.querySelectorAll("[data-l]").forEach(function(b){b.onclick=function(){S.lvl=b.getAttribute("data-l");RV=0;S.rev=0;save();onboard()}});
+ var i=LO.indexOf(S.lvl),h="",fb=!!(window.CFG&&CFG.fb&&CFG.fb.apiKey),a=$("app");document.body.classList.add("ob");
+ if(OB===0)h='<div class="ob-hero"><span class="obchip">⏱ '+D("ob_min")+'</span><h1>'+D("ob_h")+'</h1><p class="sub">'+D("ob_s")+'</p><div class="ob-lv" aria-hidden="true"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span></div><button class="btn primary big" id="nxo" type="button">'+D("ob_go")+'</button>'+(fb&&!window.authUser?'<button class="lnk" id="obl" type="button">'+D("ob_login")+'</button>':'')+'</div>';
+ else{
+  h='<div class="ob-top"><button class="bk" id="pv" type="button" aria-label="رجوع">→</button><div class="bar" aria-hidden="true"><i style="width:'+OB*20+'%"></i></div></div>';
+  if(OB===1){h+='<h1>'+D("level_q")+'</h1><p class="sub">'+D("level_sub")+'</p>'+LO.filter(function(l){return LV.some(function(x){return x.c===l})}).map(function(l){return '<button class="opt'+(S.lvl===l?" on":"")+'" data-l="'+l+'"><span class="lv">'+l+'</span><span><b>'+LN[l]+'</b><small>'+LD[l]+'</small></span></button>'}).join("");
+   if(i>0&&!RV)h+='<div class="note">'+D("suggest_review",LO[i-1],S.lvl)+'</div><div class="row"><button class="btn primary" id="rv">البدء بمراجعة '+LO[i-1]+'</button><button class="btn" id="kp">المتابعة من '+S.lvl+'</button></div>'}
+  else if(OB===2)h+='<h1>'+D("time_q")+'</h1><p class="sub">'+D("time_sub")+'</p><div class="cps">'+MN.map(function(m){return '<button class="cp'+(S.mn===m?" on":"")+'" data-m="'+m+'">'+fm(m)+'</button>'}).join("")+'</div><div class="note">'+D("pace_note",nx(S.lvl),est(S.lvl,S.mn))+'</div>';
+  else if(OB===3)h+='<h1>التذكير اليومي</h1><p class="sub">'+D("remind_sub")+'</p><div class="card"><div class="row" style="margin:0"><input type="time" id="rt" value="'+S.rm.t+'" aria-label="وقت التذكير"><button class="btn" id="rb">تفعيل الإشعارات</button></div><div class="note" id="rn">'+D("demo_remind")+'</div></div><div class="note">'+D("streak_note")+'</div>';
+  else if(OB===4)h+='<h1>'+D("ob_name_q")+'</h1><input id="nm" class="inp" autocomplete="name" aria-label="الاسم" value="'+esc(S.nm)+'">';
+  else{h+='<h1>'+D("ob_save_h")+'</h1><div class="card"><div class="stats" style="margin:0"><div class="stat">المستوى<b>'+S.lvl+' · '+LN[S.lvl]+'</b></div><div class="stat">الهدف اليومي<b>'+fm(S.mn)+'</b></div><div class="stat">وقت التذكير<b>'+S.rm.t+'</b></div><div class="stat">مستوى '+nx(S.lvl)+'<b>'+est(S.lvl,S.mn)+'</b></div></div></div>'+(S.lvl!=="A1"?'<div class="note w">'+D("only_a1")+'</div>':"");
+   if(fb&&!window.authUser)h+='<p class="sub" style="margin:16px 0 8px">'+D("ob_save_s")+'</p><input id="oe" class="inp" type="email" dir="ltr" autocomplete="email" placeholder="الإيميل"><input id="op" class="inp" type="password" dir="ltr" autocomplete="new-password" placeholder="كلمة السر" style="margin-top:8px"><div class="note w" id="oer" role="alert" hidden></div><button class="btn primary big" id="osu" type="button" style="margin-top:12px">إنشاء حساب</button><button class="btn big" id="ogo" type="button" style="margin-top:8px">الدخول بحساب جوجل</button><button class="lnk" id="osi" type="button">'+D("ob_login")+'</button><button class="lnk" id="nxo" type="button">'+D("ob_skip_acct")+'</button>';
+   else h+='<button class="btn primary big" id="nxo" type="button">ابدأ التعلّم</button>'}
+  if(OB>=2&&OB<=4)h+='<div class="row"><button class="btn primary" id="nxo" type="button">التالي</button></div>'+(OB===3?'<button class="lnk" id="sk" type="button">'+D("ob_skip")+'</button>':'')}
+ a.innerHTML=h;
+ a.querySelectorAll("[data-l]").forEach(function(b){b.onclick=function(){S.lvl=b.getAttribute("data-l");RV=0;S.rev=0;save();if(LO.indexOf(S.lvl)===0){b.classList.add("pop");setTimeout(function(){OB=2;onboard()},180)}else onboard()}});
  a.querySelectorAll("[data-m]").forEach(function(b){b.onclick=function(){S.mn=+b.getAttribute("data-m");save();onboard()}});
- if($("rv"))$("rv").onclick=function(){S.lvl=LO[i-1];RV=1;S.rev=1;save();onboard()};
+ if($("rv"))$("rv").onclick=function(){S.lvl=LO[i-1];RV=1;S.rev=1;save();OB=2;onboard()};
  if($("kp"))$("kp").onclick=function(){RV=0;S.rev=0;OB=2;onboard()};
  if($("pv"))$("pv").onclick=function(){OB--;onboard()};
+ if($("sk"))$("sk").onclick=function(){OB++;save();onboard()};
  if(OB===3)$("rb").onclick=function(){S.rm.t=$("rt").value;save();notif($("rn"))};
- $("nxo").onclick=function(){if(OB===0)S.nm=$("nm").value.trim();if(OB===3)S.rm.t=$("rt").value;if(OB===4){S.ob=1;save();go(null);return}OB++;save();onboard()};
+ function fin(){S.ob=1;save();document.body.classList.remove("ob");go(null)}
+ function ac(k){var e=$("oer"),f=window.authDo;if(!f){e.hidden=false;e.textContent=D("e_gen");return}e.hidden=true;f(k,$("oe").value.trim(),$("op").value).then(function(r){if(r)fin()}).catch(function(m){e.hidden=false;e.textContent=m})}
+ if($("osu")){$("osu").onclick=function(){ac("su")};$("osi").onclick=function(){ac("si")};$("ogo").onclick=function(){ac("go")}}
+ if($("nxo"))$("nxo").onclick=function(){if(OB===4)S.nm=$("nm").value.trim();if(OB===3)S.rm.t=$("rt").value;if(OB===5){S.ob=1;save();document.body.classList.remove("ob");go(null);return}OB++;save();onboard()};
+ window.scrollTo(0,0);
 }
 function ytUrl(s){var p=["enablejsapi=1","rel=0","playsinline=1","cc_load_policy=1","cc_lang_pref="+CC,"hl="+CC,"origin="+encodeURIComponent(location.origin)];if(s.st)p.push("start="+s.st);if(s.en)p.push("end="+s.en);return "https://www.youtube-nocookie.com/embed/"+s.y+"?"+p.join("&")}
 function xlat(t){return esc(t).replace(/[A-Za-z][A-Za-z0-9’'\-\/]*(?:[.,?!]? [A-Za-z][A-Za-z0-9’'\-\/]*)*/g,function(m){return '<bdi dir="ltr">'+m+'</bdi>'})}

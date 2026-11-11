@@ -177,3 +177,16 @@ h1{font-weight:800}.card{border-radius:20px}.nd{border-radius:16px}
 .xerr li{position:relative;padding:6px 26px 6px 0;margin-bottom:4px}.xerr li::before{content:"⚠️";position:absolute;inset-inline-start:0;top:6px;font-size:.9rem}
 .xtip{margin-top:16px;background:var(--ac2);border-radius:12px;padding:12px 14px}.xtip b{display:block;margin-bottom:2px}.xtip p{margin:0}
 #adm{margin:18px 0}#ad2{margin-top:28px}
+
+/* شاشة البداية (Onboarding) */
+.ob-hero{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:16px 4px}
+.ob-hero h1{font-size:1.9rem;line-height:1.35;margin:0}
+.obchip{display:inline-block;padding:6px 14px;border-radius:999px;background:var(--ac2);color:var(--ac);font-weight:700;font-size:.9rem}
+.ob-lv{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.ob-lv span{padding:8px 14px;border-radius:12px;border:2px solid var(--ln);background:var(--sf);font-weight:800}
+.ob-lv span:first-child{border-color:var(--ac);color:var(--ac)}
+.btn.big{width:100%;max-width:420px;padding:16px 20px;font-size:1.1rem}
+.lnk{background:none;border:0;color:var(--ac);font:inherit;font-weight:700;padding:10px;cursor:pointer;text-decoration:underline}
+.ob-top{display:flex;align-items:center;gap:12px;margin-bottom:22px}.ob-top .bar{flex:1;margin:0}
+.bk{font:inherit;font-size:1.3rem;width:42px;height:42px;border-radius:50%;border:2px solid var(--ln);background:var(--sf);color:var(--ink);cursor:pointer;flex:none}
+#app>.lnk{display:block;margin:6px auto 0}
+body.ob article.seo{display:none}
