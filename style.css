@@ -256,3 +256,25 @@ body{background:radial-gradient(900px 420px at 90% -80px,color-mix(in srgb,var(-
 .ft-l{display:flex;justify-content:center;margin:26px 0 0}
 .ft-l .pill{width:auto;padding:0 16px;height:40px}.ft-l .pl-t{display:inline!important}
 .ft-l+.ft{margin-top:12px}
+/* v19: skip = amber (incomplete), mastered badge */
+.pn.skip .circ{opacity:1;background:#F59E0B;color:#fff;box-shadow:0 4px 0 #B45309}
+.pn.skip .lab small{color:#B45309;font-weight:700}
+.pn.mastered .lab small{color:#B45309;font-weight:700}
+.stats .stat:last-child:nth-child(odd){grid-column:1/-1}
+/* v19: guide page + onboarding principle */
+.ob-pr{margin:14px auto 0;max-width:34ch;font-size:.88rem;line-height:1.7;opacity:.85;text-align:center}
+.ob-pr a{display:block;margin-top:4px;font-weight:700;text-decoration:underline}
+article.guide{max-width:760px;margin:0 auto;padding:8px 4px 40px;line-height:1.95}
+article.guide h1{font-size:1.6rem;line-height:1.5;margin:10px 0}
+article.guide h2{font-size:1.25rem;margin:30px 0 8px;scroll-margin-top:12px}
+article.guide h3{font-size:1.05rem;margin:18px 0 4px}
+article.guide .lead{font-size:1.05rem;opacity:.9}
+article.guide a{text-decoration:underline}
+article.guide .toc{background:var(--ac2);border-radius:14px;padding:12px 16px;margin:16px 0}
+article.guide .toc ol{margin:6px 0 0;padding-inline-start:20px;line-height:2}
+article.guide .tw{overflow-x:auto;margin:12px 0;border-radius:12px;border:1px solid var(--ln)}
+article.guide table{border-collapse:collapse;width:100%;min-width:520px;font-size:.88rem;line-height:1.7}
+article.guide th,article.guide td{padding:9px 10px;border-bottom:1px solid var(--ln);text-align:start;vertical-align:top}
+article.guide thead th{background:var(--ac2)}
+article.guide .gcta{text-align:center;margin-top:28px}
+article.guide .gcta .btn{text-decoration:none;display:inline-block}
