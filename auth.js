@@ -9,11 +9,10 @@ B.onAuthStateChanged(au,async u=>{user=u;window.authUser=u;btn.textContent=u?"�
   cloudSave(S)}catch(e){}});
 const T={"auth/invalid-credential":D("e_cred"),"auth/user-not-found":D("e_cred"),"auth/wrong-password":D("e_cred"),"auth/email-already-in-use":D("e_used"),"auth/weak-password":D("e_weak"),"auth/invalid-email":D("e_mail")};
 window.authDo=async(k,em,pw)=>{try{if(k==="su")await B.createUserWithEmailAndPassword(au,em,pw);else if(k==="si")await B.signInWithEmailAndPassword(au,em,pw);else{const g=new B.GoogleAuthProvider();try{await B.signInWithPopup(au,g)}catch(e){if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"){await B.signInWithRedirect(au,g);return 0}if(e.code==="auth/popup-closed-by-user"||e.code==="auth/cancelled-popup-request")return 0;throw e}}return 1}catch(e){throw T[e.code]||(D("e_gen")+" ["+(e.code||"")+"]")}};
+window.authReset=async em=>{try{await B.sendPasswordResetEmail(au,em);return D("e_reset")}catch(e){throw T[e.code]||(D("e_gen")+" ["+(e.code||"")+"]")}};
 btn.onclick=()=>{const m=document.createElement("div");m.className="md";const out=!!user;
- m.innerHTML='<div class="bx"><b>'+(out?(user.email||"حسابي"):"حسابك في مسار")+'</b>'+(out?'<button class="btn" id="lo">تسجيل الخروج</button>':'<input id="em" type="email" placeholder="الإيميل" dir="ltr"><input id="pw" type="password" placeholder="كلمة السر" dir="ltr"><button class="btn" id="si">دخول</button><button class="btn" id="su">حساب جديد</button><button class="btn" id="go">الدخول بحساب جوجل</button><button class="btn" id="rp">نسيت كلمة السر</button>')+'<div class="er" id="er"></div><button class="btn" id="cl">إغلاق</button></div>';document.body.appendChild(m);
- const $=i=>m.querySelector("#"+i),er=e=>$("er").textContent=T[e.code]||(D("e_gen")+" ["+(e.code||e.message||"")+"]"),ok=()=>{m.remove()};
- $("cl").onclick=ok;if(out){$("lo").onclick=async()=>{await B.signOut(au);sessionStorage.removeItem("sy");ok()};return}
- $("si").onclick=()=>B.signInWithEmailAndPassword(au,$("em").value,$("pw").value).then(ok).catch(er);
- $("su").onclick=()=>B.createUserWithEmailAndPassword(au,$("em").value,$("pw").value).then(ok).catch(er);
- $("go").onclick=()=>{const g=new B.GoogleAuthProvider();B.signInWithPopup(au,g).then(ok).catch(e=>{if(e&&(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"))B.signInWithRedirect(au,g).catch(er);else if(e&&(e.code==="auth/popup-closed-by-user"||e.code==="auth/cancelled-popup-request"))return;else er(e)})};
- $("rp").onclick=()=>B.sendPasswordResetEmail(au,$("em").value).then(()=>$("er").textContent=D("e_reset")).catch(er)}})();
+ m.innerHTML=out?'<div class="bx af-bx" role="dialog" aria-modal="true"><button class="af-x" id="cl" type="button" aria-label="إغلاق">✕</button><div class="af-h"><span class="af-logo">م</span><b>حسابي</b><small dir="ltr">'+(user.email||"")+'</small></div><button class="btn big" id="lo" type="button">تسجيل الخروج</button></div>':'<div class="bx af-bx" role="dialog" aria-modal="true"><button class="af-x" id="cl" type="button" aria-label="إغلاق">✕</button><div class="af-h"><span class="af-logo">م</span><b>مرحبًا بك في مسار</b><small>'+D("ob_save_s")+'</small></div>'+window.afHtml()+'</div>';
+ document.body.appendChild(m);
+ const ok=()=>{m.remove()};m.querySelector("#cl").onclick=ok;m.onclick=e=>{if(e.target===m)ok()};
+ if(out){m.querySelector("#lo").onclick=async()=>{await B.signOut(au);sessionStorage.removeItem("sy");ok()};return}
+ window.afWire(m,ok)};})();

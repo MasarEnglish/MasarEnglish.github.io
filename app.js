@@ -128,6 +128,23 @@ var KEY="enpath_v4",S={d:{},qs:{},sk:{n:0,last:""},rm:{t:"20:00"},na:0,ob:0,nm:"
 try{var raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(window.cloudSave)cloudSave(S)}
 function $(i){return document.getElementById(i)}
+var GS='<svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 0 1 0-9.4l-7.9-6.1a24 24 0 0 0 0 21.6l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>';
+window.afHtml=function(){return '<div class="af"><div class="af-tabs" role="tablist"><button type="button" role="tab" class="on" data-m="in">تسجيل الدخول</button><button type="button" role="tab" data-m="up">حساب جديد</button></div>'+
+ '<button class="af-g" type="button" id="afg">'+GS+'<span>المتابعة بحساب جوجل</span></button><div class="af-or"><span>أو بالإيميل</span></div>'+
+ '<label class="af-l">الإيميل<input id="afe" class="af-i" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com"></label>'+
+ '<label class="af-l">كلمة السر<input id="afp" class="af-i" type="password" dir="ltr" autocomplete="current-password" placeholder="••••••••"></label>'+
+ '<div class="af-er" id="afr" role="alert" aria-live="polite" hidden></div>'+
+ '<button class="btn primary big af-s" id="afs" type="button">دخول</button><button class="lnk" id="afrp" type="button">نسيت كلمة السر؟</button></div>'};
+window.afWire=function(root,done){var q=function(s){return root.querySelector(s)},mode="in",er=q("#afr");
+ function show(t,good){er.hidden=!t;er.textContent=t||"";er.classList.toggle("ok",!!good)}
+ function run(k){var f=window.authDo;if(!f){show(D("e_gen"));return}show("");var b=q("#afs");b.disabled=true;
+  f(k,q("#afe").value.trim(),q("#afp").value).then(function(r){if(r)done()}).catch(function(m){show(m)}).then(function(){b.disabled=false})}
+ root.querySelectorAll(".af-tabs [data-m]").forEach(function(t){t.onclick=function(){mode=t.getAttribute("data-m");root.querySelectorAll(".af-tabs [data-m]").forEach(function(x){x.classList.toggle("on",x===t)});
+  q("#afs").textContent=mode==="up"?"إنشاء حساب":"دخول";q("#afrp").hidden=mode==="up";q("#afp").setAttribute("autocomplete",mode==="up"?"new-password":"current-password");show("")}});
+ q("#afs").onclick=function(){run(mode==="up"?"su":"si")};
+ q("#afg").onclick=function(){run("go")};
+ q("#afrp").onclick=function(){var em=q("#afe").value.trim();if(!em){show("اكتب الإيميل الأول");return}if(!window.authReset)return;window.authReset(em).then(function(m){show(m,1)}).catch(function(m){show(m)})};
+ root.querySelectorAll(".af-i").forEach(function(i){i.onkeydown=function(e){if(e.key==="Enter")q("#afs").click()}})};
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return "&#"+c.charCodeAt(0)+";"})}
 function ic(n){var p={play:'<path d="M8 5v14l11-7z"/>',book:'<path d="M4 5h6a3 3 0 013 3v12a2 2 0 00-2-2H4zM20 5h-6a3 3 0 00-3 3v12a2 2 0 012-2h7z"/>',quiz:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1-1.5 2M12 17h.01"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',skip:'<path d="M6 6l6 6-6 6M13 6l6 6-6 6"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>'};
  return '<svg viewBox="0 0 24 24" width="19" height="19" fill="'+(n==="play"?"currentColor":"none")+'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p[n]+'</svg>'}
@@ -184,7 +201,7 @@ function notif(n){
  Notification.requestPermission().then(function(p){n.textContent=p==="granted"?"تم حفظ وقت التذكير ("+S.rm.t+") وتفعيل إذن الإشعارات.":D("notif_denied")})}
 function onboard(){
  var i=LO.indexOf(S.lvl),h="",fb=!!(window.CFG&&CFG.fb&&CFG.fb.apiKey),a=$("app");document.body.classList.add("ob");
- if(OB===0)h='<div class="ob-hero"><span class="obchip">⏱ '+D("ob_min")+'</span><h1>'+D("ob_h")+'</h1><p class="sub">'+D("ob_s")+'</p><div class="ob-lv" aria-hidden="true"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span></div><button class="btn primary big" id="nxo" type="button">'+D("ob_go")+'</button>'+(fb&&!window.authUser?'<button class="lnk" id="obl" type="button">'+D("ob_login")+'</button>':'')+'</div>';
+ if(OB===0)h='<div class="ob-hero"><span class="af-logo big">م</span><span class="obchip">⏱ '+D("ob_min")+'</span><h1>'+D("ob_h")+'</h1><p class="sub">'+D("ob_s")+'</p><ul class="ob-ft"><li>✓ مجاني</li><li>✓ فيديوهات قصيرة</li><li>✓ اختبارات</li></ul><div class="ob-lv" aria-hidden="true"><span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span></div><button class="btn primary big" id="nxo" type="button">'+D("ob_go")+'</button>'+(fb&&!window.authUser?'<button class="lnk" id="obl" type="button">'+D("ob_login")+'</button>':'')+'</div>';
  else{
   h='<div class="ob-top"><button class="bk" id="pv" type="button" aria-label="رجوع">→</button><div class="bar" aria-hidden="true"><i style="width:'+OB*20+'%"></i></div></div>';
   if(OB===1){h+='<h1>'+D("level_q")+'</h1><p class="sub">'+D("level_sub")+'</p>'+LO.filter(function(l){return LV.some(function(x){return x.c===l})}).map(function(l){return '<button class="opt'+(S.lvl===l?" on":"")+'" data-l="'+l+'"><span class="lv">'+l+'</span><span><b>'+LN[l]+'</b><small>'+LD[l]+'</small></span></button>'}).join("");
@@ -193,7 +210,7 @@ function onboard(){
   else if(OB===3)h+='<h1>التذكير اليومي</h1><p class="sub">'+D("remind_sub")+'</p><div class="card"><div class="row" style="margin:0"><input type="time" id="rt" value="'+S.rm.t+'" aria-label="وقت التذكير"><button class="btn" id="rb">تفعيل الإشعارات</button></div><div class="note" id="rn">'+D("demo_remind")+'</div></div><div class="note">'+D("streak_note")+'</div>';
   else if(OB===4)h+='<h1>'+D("ob_name_q")+'</h1><input id="nm" class="inp" autocomplete="name" aria-label="الاسم" value="'+esc(S.nm)+'">';
   else{h+='<h1>'+D("ob_save_h")+'</h1><div class="card"><div class="stats" style="margin:0"><div class="stat">المستوى<b>'+S.lvl+' · '+LN[S.lvl]+'</b></div><div class="stat">الهدف اليومي<b>'+fm(S.mn)+'</b></div><div class="stat">وقت التذكير<b>'+S.rm.t+'</b></div><div class="stat">مستوى '+nx(S.lvl)+'<b>'+est(S.lvl,S.mn)+'</b></div></div></div>'+(S.lvl!=="A1"?'<div class="note w">'+D("only_a1")+'</div>':"");
-   if(fb&&!window.authUser)h+='<p class="sub" style="margin:16px 0 8px">'+D("ob_save_s")+'</p><input id="oe" class="inp" type="email" dir="ltr" autocomplete="email" placeholder="الإيميل"><input id="op" class="inp" type="password" dir="ltr" autocomplete="new-password" placeholder="كلمة السر" style="margin-top:8px"><div class="note w" id="oer" role="alert" hidden></div><button class="btn primary big" id="osu" type="button" style="margin-top:12px">إنشاء حساب</button><button class="btn big" id="ogo" type="button" style="margin-top:8px">الدخول بحساب جوجل</button><button class="lnk" id="osi" type="button">'+D("ob_login")+'</button><button class="lnk" id="nxo" type="button">'+D("ob_skip_acct")+'</button>';
+   if(fb&&!window.authUser)h+='<p class="sub" style="margin:18px 0 12px">'+D("ob_save_s")+'</p>'+window.afHtml()+'<button class="lnk" id="nxo" type="button">'+D("ob_skip_acct")+'</button>';
    else h+='<button class="btn primary big" id="nxo" type="button">ابدأ التعلّم</button>'}
   if(OB>=2&&OB<=4)h+='<div class="row"><button class="btn primary" id="nxo" type="button">التالي</button></div>'+(OB===3?'<button class="lnk" id="sk" type="button">'+D("ob_skip")+'</button>':'')}
  a.innerHTML=h;
@@ -204,9 +221,7 @@ function onboard(){
  if($("pv"))$("pv").onclick=function(){OB--;onboard()};
  if($("sk"))$("sk").onclick=function(){OB++;save();onboard()};
  if(OB===3)$("rb").onclick=function(){S.rm.t=$("rt").value;save();notif($("rn"))};
- function fin(){S.ob=1;save();document.body.classList.remove("ob");go(null)}
- function ac(k){var e=$("oer"),f=window.authDo;if(!f){e.hidden=false;e.textContent=D("e_gen");return}e.hidden=true;f(k,$("oe").value.trim(),$("op").value).then(function(r){if(r)fin()}).catch(function(m){e.hidden=false;e.textContent=m})}
- if($("osu")){$("osu").onclick=function(){ac("su")};$("osi").onclick=function(){ac("si")};$("ogo").onclick=function(){ac("go")}}
+ if(OB===5&&$("afs"))window.afWire(a,function(){S.ob=1;save();document.body.classList.remove("ob");go(null)});
  if($("nxo"))$("nxo").onclick=function(){if(OB===4)S.nm=$("nm").value.trim();if(OB===3)S.rm.t=$("rt").value;if(OB===5){S.ob=1;save();document.body.classList.remove("ob");go(null);return}OB++;save();onboard()};
  window.scrollTo(0,0);
 }
@@ -258,6 +273,7 @@ addEventListener("message",function(e){
  if(d.event==="infoDelivery"&&i){if(typeof i.currentTime==="number")tick(i.currentTime);if(i.playerState===0)fin()}
  if(d.event==="onStateChange"&&i===0)fin()});
 document.addEventListener("click",function(e){var t=e.target;if(t&&t.id==="obl"){var b=document.getElementById("acc");if(b)b.click()}});
+document.addEventListener("click",function(e){var p=e.target.closest&&e.target.closest(".pn");if(p&&!e.target.closest(".circ")){var c=p.querySelector(".circ");if(c)c.click()}});
 applyTh();(function(){var xs=$("xps");if(xs)xs.remove();var L=O=document.body.getAttribute("data-l")||null;if(O&&(!S.ob||!canOpen(O))){view();$("app").innerHTML='<div class="card" style="text-align:center"><p>'+D("lesson_locked")+'</p><a class="btn" href="index.html">خريطة الدروس 🗺️</a></div>'+(function(){var q=find(L);return q&&q.k==="v"?xpl(L):""})();}else view();initAds()})();
 function initAds(){var C=(window.CFG||{}).ads||{},cl=C.client||"ca-pub-6780159293669545",xp=$("xp"),mp=!document.body.getAttribute("data-l")&&document.querySelector("#app .unit"),ok=!!(xp||mp),live=ok;
 if(ok&&!$("adm")){var m=document.createElement("div");m.className="ad";m.id="adm";
