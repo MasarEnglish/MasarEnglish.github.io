@@ -431,7 +431,7 @@ function statics(){
  document.querySelectorAll("[data-k]").forEach(function(el){var t=el.getAttribute("data-t");el.innerHTML=D(el.getAttribute("data-k"),t==null?"":t)})}
 window.D=D;
 window.DL={code:code,chosen:!!c,pick:pick,
- btn:function(){return '<button class="pill" id="dlb" type="button" aria-label="تغيير اللغة واللهجة">'+(code==="sa"?"🇸🇦 السعودية":code==="fu"?"📖 الفصحى":code==="ma"?"🇲🇦 المغرب":"🇪🇬 مصر")+'</button>'},
+ btn:function(){var f={eg:"eg",sa:"sa",ma:"ma"}[code],n={eg:"مصر",sa:"السعودية",ma:"المغرب",fu:"الفصحى"}[code];return '<button class="pill" id="dlb" type="button" aria-label="تغيير اللغة واللهجة">'+(f?'<img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/'+f+'.svg" alt="" width="22" height="16" onerror="this.replaceWith(document.createTextNode(\'🌐\'))">':'<span aria-hidden="true">📖</span>')+'<span class="pl-t">'+n+'</span></button>'},
  wire:function(){var b=document.getElementById("dlb");if(b)b.onclick=function(){pick(true)}}};
 function init(){statics();if(!c&&document.getElementById("app"))pick(false)}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();

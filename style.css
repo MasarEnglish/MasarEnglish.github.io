@@ -237,3 +237,22 @@ body{background:radial-gradient(900px 420px at 90% -80px,color-mix(in srgb,var(-
 :root[data-theme="dark"] .af-er{background:#3A1815;color:#FF9B93}
 .af .btn.big{max-width:none}.af-s:disabled{opacity:.6}
 .af .lnk{justify-self:center}
+
+/* الهيدر */
+.top{justify-content:flex-start;gap:8px;padding:8px 0 18px}
+.pills{margin-inline-start:auto;display:flex;gap:8px;align-items:center}
+.pill,#acc{height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;cursor:pointer;font:inherit;font-size:.88rem;font-weight:700;color:var(--ink);box-sizing:border-box}
+.pill.gd{cursor:default}
+.pill.th{width:38px;padding:0}
+#dlb img{width:22px;height:16px;border-radius:3px;object-fit:cover;box-shadow:0 0 0 1px var(--ln)}
+#acc.out{background:var(--ac);border-color:var(--ac);color:var(--ai)}
+#acc.in{padding:0 6px 0 12px}
+#acc .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#3B5BFF,#8B5CF6);color:#fff;display:grid;place-items:center;font-size:.85rem}
+.brand i{display:grid;place-items:center;font-style:normal;color:#fff;font-size:1rem;font-weight:800;background:linear-gradient(135deg,#3B5BFF,#8B5CF6);width:32px;height:32px;border-radius:10px}
+.brand i::after{content:"م"}
+@media(max-width:560px){.pl-t,.acl{display:none}#dlb,#acc,#acc.in{width:38px;padding:0}.pill.gd{padding:0 10px}.top{gap:6px}.pills{gap:6px}}
+
+/* زرار اللغة في آخر الصفحة */
+.ft-l{display:flex;justify-content:center;margin:26px 0 0}
+.ft-l .pill{width:auto;padding:0 16px;height:40px}.ft-l .pl-t{display:inline!important}
+.ft-l+.ft{margin-top:12px}

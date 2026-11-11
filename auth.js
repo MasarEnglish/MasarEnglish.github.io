@@ -1,9 +1,9 @@
 (async()=>{const F=(window.CFG||{}).fb;if(!F||!F.apiKey)return;
 const V="https://www.gstatic.com/firebasejs/10.12.2/",[A,B,C]=await Promise.all([import(V+"firebase-app.js"),import(V+"firebase-auth.js"),import(V+"firebase-firestore.js")]);
 const app=A.initializeApp(F),au=B.getAuth(app),db=C.getFirestore(app);let user=null,tm;
-const btn=document.getElementById("acc");btn.hidden=false;btn.textContent="تسجيل الدخول";
+const btn=document.getElementById("acc");btn.hidden=false;const UI='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>';const setBtn=u=>{if(u){btn.className="pill in";btn.innerHTML='<b class="av">'+((u.email||"م")[0]||"م").toUpperCase()+'</b><span class="acl">حسابي</span>';btn.setAttribute("aria-label","حسابي")}else{btn.className="pill out";btn.innerHTML=UI+'<span class="acl">تسجيل الدخول</span>';btn.setAttribute("aria-label","تسجيل الدخول")}};setBtn(null);
 window.cloudSave=s=>{if(!user)return;clearTimeout(tm);tm=setTimeout(()=>C.setDoc(C.doc(db,"users",user.uid),{data:JSON.stringify(s),ts:Date.now()}),800)};
-B.onAuthStateChanged(au,async u=>{user=u;window.authUser=u;btn.textContent=u?"👤 "+(u.email||"حسابي").split("@")[0]:"تسجيل الدخول";if(!u)return;
+B.onAuthStateChanged(au,async u=>{user=u;window.authUser=u;setBtn(u);if(!u)return;
  try{const d=await C.getDoc(C.doc(db,"users",u.uid));const n=o=>Object.keys((o&&o.d)||{}).length;
   if(d.exists()){const r=JSON.parse(d.data().data);if(n(r)>n(S)||(n(r)===n(S)&&!S.ob&&r.ob)){Object.assign(S,r);localStorage.setItem(KEY,JSON.stringify(S));if(!sessionStorage.sy){sessionStorage.sy=1;location.reload()}return}}
   cloudSave(S)}catch(e){}});
