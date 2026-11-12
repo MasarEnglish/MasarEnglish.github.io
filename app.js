@@ -177,6 +177,7 @@ function map(){
   var pc=Math.round(dn/tot*100);
   h+='<div class="card hero"><div class="sub" style="margin:0">المستوى الحالي</div><h1>'+l.c+' · '+l.n+'</h1><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pc+'"><i style="width:'+pc+'%"></i></div><div class="sub" style="margin:8px 0 0">'+D("done_steps",dn,tot)+'</div>'+
   '<div class="stats"><div class="stat">الهدف اليومي<b>'+fm(S.mn)+'</b></div><div class="stat">'+D("mastered_n")+'<b>'+mcount()+'</b></div></div></div>';
+  if(window.PR)h+=PR.card();
   l.U.forEach(function(u,ui){
    var ul=ui===0||allDone(l.U[ui-1]);
    var uc=UC[ui%UC.length];h+='<div class="unit" style="--u:'+uc+'"><b>'+u.t+'</b><small>'+(ul?"":D("locked"))+'</small></div>'+(allDone(u)?revNote(u):"");
