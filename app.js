@@ -285,4 +285,5 @@ if(ok&&!$("adm")){var m=document.createElement("div");m.className="ad";m.id="adm
 document.querySelectorAll(".ad").forEach(function(e,i){if(!ok){e.style.display="none";return}if(e.style.display==="none")return;
 if(live&&C["slot"+(i+1)]){e.innerHTML='<ins class="adsbygoogle" style="display:block" data-ad-client="'+cl+'" data-ad-slot="'+C["slot"+(i+1)]+'" data-ad-format="auto" data-full-width-responsive="true"></ins>';try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(x){}}
 else{e.style.display="none"}});
+if(document.querySelector('script[src*="adsbygoogle.js"]'))window.__ag=1;
 if(live&&!window.__ag){window.__ag=1;var s=document.createElement("script");s.async=1;s.crossOrigin="anonymous";s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+cl;document.head.appendChild(s)}}
